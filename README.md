@@ -53,7 +53,7 @@ Body → raw → JSON:
 {"titulo":"prueba","estado":"en_progreso","prioridad":2,"dueDate":"2026-10-29","equipos":"id de equipo","asignado_a":"id de usuario a asignar"   }
 
 ```
->Para cambiar eliminar tarea
+>Para  eliminar tarea
 ```
 DELETE http://localhost:3008/api/tasks/id
 ```
@@ -70,9 +70,14 @@ GET http://localhost:3008/api/teams/id
 ```
 >Para crear equipo
 ```
-POST http://localhost:3001/order
+POST  http://localhost:3008/api/teams
 Body → raw → JSON:
 { "nombre":"nuevo-equipo", "descripcion":"probando post de equipos" }
+
+```
+>Para obtener estatus de equipo
+```
+GET  http://localhost:3008/api/teams/id/stats
 
 ```
 
@@ -87,6 +92,8 @@ Body → raw → JSON:
 ```
 DELETE  http://localhost:3008/api/teams/id
 ```
+
+
 
 ### Endpoints para manejar los usuarios
 
@@ -112,7 +119,7 @@ Body → raw → JSON:
 {"nombre":"usuarioTest2","email":"user2@taskflow.com","teamId":"id de equipo a asignar","rol":"designer"   }
 
 ```
->Para cambiar eliminar usuario
+>Para eliminar usuario
 ```
 DELETE  http://localhost:3008/api/users/id
 ```
