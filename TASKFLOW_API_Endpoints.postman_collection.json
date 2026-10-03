@@ -1,0 +1,398 @@
+{
+  "info": {
+    "_postman_id": "f836fcfd-b9ec-4a50-bddb-1a5002fd4381",
+    "name": "TASKFLOW_API_Endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56635807",
+    "_collection_link": "https://go.postman.co/collection/56635807-f836fcfd-b9ec-4a50-bddb-1a5002fd4381?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Para obtener todas las tareas",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3008/api/tasks/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3008",
+          "path": [
+            "api",
+            "tasks",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Para obtener tarea por id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3008/api/tasks/6ac127a924d17f8acc204362",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3008",
+          "path": [
+            "api",
+            "tasks",
+            "6ac127a924d17f8acc204362"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Para crear tarea",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"titulo\":\"prueba\",\"estado\":\"en_progreso\",\"prioridad\":5,\"dueDate\":\"2026-10-29\",\"asignado_a\":\"\",\r\n\"equipos\":\"\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3008/api/tasks",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3008",
+          "path": [
+            "api",
+            "tasks"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Para actualizar tarea",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"estado\":\"completada\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3008/api/tasks/6ac1273b24d17f8acc204360",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3008",
+          "path": [
+            "api",
+            "tasks",
+            "6ac1273b24d17f8acc204360"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Para eliminar tarea",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3008/api/tasks/6ac127a924d17f8acc204362",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3008",
+          "path": [
+            "api",
+            "tasks",
+            "6ac127a924d17f8acc204362"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Para obtener todos los equipos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "para obtener equipos por id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3008/api/teams/6ac1267a24d17f8acc20435d",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3008",
+          "path": [
+            "api",
+            "teams",
+            "6ac1267a24d17f8acc20435d"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Para crear equipo",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"nombre\":\"QA\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3008/api/teams",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3008",
+          "path": [
+            "api",
+            "teams"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Para actualizar equipo",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"nombre\":\"BACKEND\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3008/api/teams/6ac1266724d17f8acc20435c",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3008",
+          "path": [
+            "api",
+            "teams",
+            "6ac1266724d17f8acc20435c"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Para eliminar equipo",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3008/api/teams/6ac138956922330aeb834061",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3008",
+          "path": [
+            "api",
+            "teams",
+            "6ac138956922330aeb834061"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Para obtener status de equipo",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3008/api/teams/6ac1266724d17f8acc20435c/stats",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3008",
+          "path": [
+            "api",
+            "teams",
+            "6ac1266724d17f8acc20435c",
+            "stats"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Para obtener todos los usuarios",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3008/api/users",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3008",
+          "path": [
+            "api",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Para obtener usuario por id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3008/api/users/6ac1378d6922330aeb83405f",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3008",
+          "path": [
+            "api",
+            "users",
+            "6ac1378d6922330aeb83405f"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Para crear usuario",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"nombre\":\"Pedro martinez\",\"email\":\"pedro@taskflow.com\",\"rol\":\"designer\",\"teamId\":\"\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3008/api/users/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3008",
+          "path": [
+            "api",
+            "users",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Para editar usuario",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"email\":\"Monetero@taskflow.com\",\"rol\":\"developer\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3008/api/users/6ac137a26922330aeb834060",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3008",
+          "path": [
+            "api",
+            "users",
+            "6ac137a26922330aeb834060"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Para eliminar usuario",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3008/api/users/6ac1378d6922330aeb83405f",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3008",
+          "path": [
+            "api",
+            "users",
+            "6ac1378d6922330aeb83405f"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

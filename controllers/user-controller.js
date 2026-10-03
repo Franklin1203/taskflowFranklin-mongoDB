@@ -57,7 +57,7 @@ exports.createUser = async (req, res, next) =>{
 
 
         if(user.teamId){
-            await Team.updateOne({_id: user.teamId},{$addToSet:{members:user._id}})
+            await Team.updateOne({_id: user.teamId},{$addToSet:{miembros:user._id}})
         }
 
 
