@@ -1,7 +1,7 @@
 
 const express = require('express');
+const cors = require('cors')
 const mongoose = require("mongoose");
-
 
 const taskRoutes = require("./routes/taskRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -10,7 +10,7 @@ const notFound = require("./middlewares/notFound");
 const errorHandler = require("./middlewares/errorHandler");
 
 const app = express();
-
+app.use(cors());
 app.use(express.json({limit:"100kb"})); //limita el peso de lo que pongamos en el body
 
 
