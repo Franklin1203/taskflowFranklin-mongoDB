@@ -1,0 +1,62 @@
+services:
+
+  # ---------- Paso 1 · Base de datos ----------
+
+  mongo:
+    image: mongo:7
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER:?falta MONGO_USER en .env}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:?falta MONGO_PASSWORD en .env}
+    volumes:
+      - mongo-data:/data/db
+
+    healthcheck:
+      test: [ "CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+
+  # ---------- Paso 2 · API ----------
+
+  api:
+    build: ./api-taskflow
+    image: api-taskflow:dev
+    environment:
+      PORT: 3008
+      MONGO_URI: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongo:27017/tasksflow?authSource=admin
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:8080}
+    ports:
+      - "3008:3008"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3008/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+
+
+  # ---------- Paso 3 · Frontend ----------
+
+  web:
+    build: 
+      context: ./frontend
+      args:
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:3008}
+    image: web-taskflow:dev
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+      
+
+
+volumes:
+    mongo-data:
