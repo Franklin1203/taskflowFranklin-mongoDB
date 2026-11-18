@@ -1,6 +1,6 @@
 
-const app = require("./app");
-const {connectDB, disconnectDB} = require("./config/db");
+const app = require("./app.js");
+const {connectDB, disconnectDB} = require("./config/db.js");
 
 
 const PORT = Number(process.env.PORT) || 3008;
