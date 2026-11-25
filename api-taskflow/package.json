@@ -10,7 +10,9 @@
     "test:api": "node scripts/smoke-test.js",
     "demo:pool": "node scripts/pool-demo.js",
     "limpiar": "node scripts/99-limpiar.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint src tests",
+    "test": "node --test",
+    "test:ci": "node --test"
   },
   "keywords": [],
   "author": "",
@@ -22,5 +24,10 @@
     "express": "^5.2.1",
     "mongodb": "^7.6.0",
     "mongoose": "^9.10.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.15.0",
+    "globals": "^17.14.0"
   }
 }
