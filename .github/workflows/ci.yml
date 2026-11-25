@@ -1,0 +1,139 @@
+
+# Nombre que aparecerá en la pestaña Actions de el repositorio de GitHub
+name: CI
+
+# ---------- 1) TRIGGERS: Qué eventos disparan este workflow ----------
+on:
+  # Se ejecuta cada vez que se abre un PR hacia main o se suben commits a ese PR
+  pull_request:
+    branches: [main]
+  # Se ejecuta también cuando los cambios se fusionan  o suben a main
+  push:
+    branches: [main]
+  # Agrega un botón Run workflow en GitHub para lanzarlo manualmente 
+  workflow_dispatch:
+
+
+# Si se hacen dos push seguidos al mismo PR, cancela la ejecución vieja
+# y deja corriendo únicamente la más reciente.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+
+# Limita el permiso automático del workflow a solo lectura del código.
+permissions:
+  contents: read
+
+# ---------- 2) JOBS: Tareas en máquinas virtuales limpias ----------
+jobs:
+
+  # ============================================================================
+  # JOB 1: BACKEND (carpeta: api-taskflow)
+  # ============================================================================
+  api:
+    name: api
+    runs-on: ubuntu-latest            # Máquina virtual limpia de Linux
+    defaults:
+      run:
+        # Todos los comandos run corren dentro de api-taskflow/
+        working-directory: api-taskflow
+
+    steps:
+      # Paso 1: Clonar el repositorio dentro del runner
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      # Paso 2: Instalar Node 22 
+      # y guarda caché de npm para no descargar dependencias desde cero cada vez.
+      - name: Instalar Node.js 22 con caché de npm
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          #  Esta ruta siempre parte desde la RAÍZ del repositorio
+          cache-dependency-path: api-taskflow/package-lock.json
+
+      # Paso 3: Instalar dependencias exactas según package-lock.json.
+      # Si se falla aquí, revisa que package-lock.json esté subido a GitHub.
+      - name: Instalar dependencias (exactas del package-lock.json)
+        run: npm ci
+
+      # Paso 4: Verificar reglas de estilo y posibles errores de sintaxis.
+      # Revisa en api-taskflow/package.json que exista el script lint.
+      - name: Lint
+        run: npm run lint
+
+      # Paso 5: Ejecuta las pruebas del backend.
+      # NOTA: Revisa si en el package.json el script se llama test:ci o solo test.
+      - name: Tests
+        run: npm run test:ci
+
+  # ============================================================================
+  # JOB 2: FRONTEND (carpeta: frontend)
+  # Corre EN PARALELO con el job api porque no tienen dependencia entre sí.
+  # ============================================================================
+  web:
+    name: web
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        # Todos los comandos run corren dentro de frontend/
+        working-directory: frontend
+
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar Node.js 22 con caché de npm
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          # Ruta desde la RAÍZ hacia el lockfile del frontend
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      # Revisa que lint y test existan en frontend/package.json
+      - name: Lint
+        run: npm run lint
+
+      - name: Tests
+        run: npm test
+
+      # Compila React/Vite para confirmar que el bundle de producción no tiene errores
+      - name: Build de producción
+        run: npm run build
+        env:
+         
+          # Verifica en el frontend/.env.example si necesito agregar /api al final.
+          VITE_API_URL: http://localhost:3008
+
+  # ============================================================================
+  # JOB 3: CONSTRUCCIÓN DE IMÁGENES DOCKER
+  # Solo arranca si api y web terminan en verde.
+  # ============================================================================
+  docker-build:
+    name: docker-build
+    needs: [api, web]                 # Espera a que pasen ambos jobs anteriores
+    runs-on: ubuntu-latest            # Ya incluye Docker instalado por defecto
+
+    steps:
+      # Cada job corre en una VM nueva, así que toca descargar el código otra vez
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      # Verifica que el Dockerfile de la api compila sin errores
+      - name: Build de la imagen de la API
+        run: docker build -t taskflow-api:ci ./api-taskflow
+
+      # Verifica que el Dockerfile del Frontend compila bien
+      # pasando la variable de la API en tiempo de construcción
+      - name: Build de la imagen web
+        run: docker build -t taskflow-web:ci --build-arg VITE_API_URL=http://localhost:3008 ./frontend
+
+      # Muestra las imágenes creadas y su peso en el log de GitHub Actions
+      - name: Imágenes construidas
+        run: docker image ls "taskflow-*"
