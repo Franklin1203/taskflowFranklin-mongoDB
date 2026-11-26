@@ -60,6 +60,37 @@ docker compose down
 ```
 docker compose down -v
 ```
+### Pipeline de CI/CD
 
+>Integración Continua (CI) - En cada Pull Request hacia main
+
+```
+API (api-taskflow): instalación de dependencias, lint y tests
+Frontend (frontend): instalación de dependencias, lint, tests y build
+Docker: validación de construcción de imágenes 
+Protección de rama: si algún check falla, se bloquea el merge a main
+```
+
+>Despliegue Continuo (CD) - Al hacer merge a main o crear un tag de versión
+
+```
+Construye y publica automáticamente las imágenes en paralelo (api y web)
+En merge a main genera los tags: sha-<commit> y latest
+Con un tag de Git (ej. v1.0.0) genera los tags de versión: 1.0.0 y 1.0
+```
+
+>Publicación de imágenes en GitHub Container Registry (GHCR)
+
+```
+API: ghcr.io/franklin1203/taskflow-api
+Frontend: ghcr.io/franklin1203/taskflow-web
+```
+
+>Levantar el proyecto usando las imágenes publicadas en GHCR
+
+```
+docker compose -f docker-compose.prod.yml pull
+docker compose -f docker-compose.prod.yml up -d
+```
 
 
